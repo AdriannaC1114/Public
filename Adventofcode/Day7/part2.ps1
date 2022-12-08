@@ -3,7 +3,6 @@ Clear-Variable units
 clear-variable alldir
 clear-variable sum
 clear-variable sum1
-
 $commands = @(gc C:\Users\adrianna\Desktop\Day7\input.txt)
 $Numbers = 0..9
 $ofs = '\'
@@ -44,7 +43,7 @@ Foreach($command in $commands)
         $alldir.$cwd += [int32]$value
         }
         #check if you're in a subfolder. Check if there's slashes, and if there is, move it up one
-        #and check again. Repeats until there
+        #and check again. Repeats until there is a single directory
         $slashcheck = $cwd.ToCharArray() | Group-Object -AsHashTable -AsString
 
         if($slashcheck['\'].Count -ge 2){
@@ -69,16 +68,14 @@ Foreach($command in $commands)
         }}
         }
         
+$totaldiskspace = 70000000
 
-
-       
+$alldir.values  | Sort-Object -Descending
 
         
 Foreach($tester in $alldir.values){If([int32]$tester -lt 100000){
 $sum += $tester}}
 
-
-clear-variable sum1
 $toplevels = @()
 Foreach($key in @($alldir.keys)[0..189]){
     $slashcheck = $key.ToCharArray() | Group-Object -AsHashTable -AsString
@@ -89,3 +86,5 @@ Foreach($folder in $toplevels){$sum1 += $alldir.$folder}
 
 $SizeDiff = 70000000 - $sum1
 $sizediff = 30000000 - $sizediff
+
+$alldir.values -ge 3956976 | select -First 1
